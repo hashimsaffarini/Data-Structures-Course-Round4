@@ -9,6 +9,12 @@ public class MyLinkedList {
         size = 0;
     }
 
+    void add(int... arr) {
+        for (int i = 0; i < arr.length; i++) {
+            add(arr[i]);
+        }
+    }
+
     void add(int val) {
         Node newNode = new Node(val);
         if (head == null) {
@@ -18,6 +24,46 @@ public class MyLinkedList {
             tail = newNode;
         }
         size++;
+    }
+
+    void add(int index, int val) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException();
+        }
+        if (index == 0) {
+            addFirst(val);
+        } else if (index == size) {
+            add(val);
+        } else {
+            Node newNode = new Node(val);
+            Node curr = head;
+            for (int i = 0; i < index - 1; i++) {
+                curr = curr.next;
+            }
+            newNode.next = curr.next;
+            curr.next = newNode;
+            size++;
+        }
+    }
+
+    int remove(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+        if (index == 0) {
+            return removeFirst();
+        }
+        Node curr = head;
+        for (int i = 0; i < index - 1; i++) {
+            curr = curr.next;
+        }
+        int oldValue = curr.next.val;
+        if (index == size - 1) {
+            tail = curr;
+        }
+        curr.next = curr.next.next;
+        size--;
+        return oldValue;
     }
 
     void addFirst(int val) {
@@ -40,6 +86,19 @@ public class MyLinkedList {
             temp = temp.next;
         }
         return temp.val;
+    }
+
+    int set(int index, int val) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+        Node temp = head;
+        for (int i = 0; i < index; i++) {
+            temp = temp.next;
+        }
+        int oldValue = temp.val;
+        temp.val = val;
+        return oldValue;
     }
 
     int removeFirst() {
