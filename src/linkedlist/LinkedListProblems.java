@@ -110,6 +110,82 @@ public class LinkedListProblems {
         return headA == null && headB == null;
     }
 
+    static boolean isPalindrome(Node head) {
+        if (head == null || head.next == null) {
+            return true;
+        }
+        Node mid = middle(head);
+        Node secondHalf = reverse(mid);
+        Node firstHalf = head;
+        while (firstHalf != null && secondHalf != null) {
+            if (firstHalf.val != secondHalf.val) {
+                return false;
+            }
+            firstHalf = firstHalf.next;
+            secondHalf = secondHalf.next;
+        }
+        return true;
+    }
+
+    static Node insertSort(Node head, int val) {
+        Node newNode = new Node(val);
+        Node curr = head;
+        if (head == null || head.val >= val) {
+            newNode.next = head;
+            head = newNode;
+            return head;
+        }
+        while (curr.next != null) {
+            if (curr.next.val > newNode.val) {
+                break;
+            }
+            curr = curr.next;
+        }
+        newNode.next = curr.next;
+        curr.next = newNode;
+        return head;
+    }
+
+    static Node swapPairs(Node head) {
+        if (head == null || head.next == null) return head;
+        Node newHead = head.next;
+        Node prev = null, curr = head;
+        while (curr != null && curr.next != null) {
+            Node next = curr.next;
+            curr.next = next.next;
+            next.next = curr;
+            if (prev != null) {
+                prev.next = next;
+            }
+            prev = curr;
+            curr = curr.next;
+        }
+        return newHead;
+    }
+
+    static Node findIntersection(Node head1, Node head2) {
+        Node dummy = new Node(0);
+        Node tail = dummy;
+        for (Node curr1 = head1; curr1 != null; curr1 = curr1.next) {
+            for (Node curr2 = head2; curr2 != null; curr2 = curr2.next) {
+                if (curr1.val == curr2.val && !exists(dummy.next, curr1.val)) {
+                    tail.next = new Node(curr1.val);
+                    tail = tail.next;
+                    break;
+                }
+            }
+        }
+        return dummy.next;
+    }
+
+    static boolean exists(Node head, int val) {
+        for (Node curr1 = head; curr1 != null; curr1 = curr1.next) {
+            if (curr1.val == val) return true;
+        }
+        return false;
+    }
+
+
     public static void main(String[] args) {
         MyLinkedList list = new MyLinkedList();
         list.add(1, 1, 1, 2, 2, 2, 3, 3, 4);
