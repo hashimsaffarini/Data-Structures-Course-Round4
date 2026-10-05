@@ -185,11 +185,71 @@ public class LinkedListProblems {
         return false;
     }
 
+    static Node alternativeLinkedList(Node a, Node b) {
+        Node dummy = new Node(0);
+        Node tail = dummy;
+        while (true) {
+            if (a == null) {
+                tail.next = b;
+                break;
+            } else if (b == null) {
+                tail.next = a;
+                break;
+            } else {
+                tail.next = a;
+                tail = a;
+                a = a.next;
+
+                tail.next = b;
+                tail = b;
+                b = b.next;
+            }
+        }
+        return dummy.next;
+    }
+
+    static Node mergeLinkedLists(Node a, Node b) {
+        Node dummy = new Node(0);
+        Node tail = dummy;
+        while (true) {
+            if (a == null) {
+                tail.next = b;
+                break;
+            } else if (b == null) {
+                tail.next = a;
+                break;
+            } else {
+                if (a.val <= b.val) {
+                    tail.next = a;
+                    tail = a;
+                    a = a.next;
+                } else {
+                    tail.next = b;
+                    tail = b;
+                    b = b.next;
+                }
+            }
+        }
+        return dummy.next;
+    }
+
 
     public static void main(String[] args) {
         MyLinkedList list = new MyLinkedList();
-        list.add(1, 1, 1, 2, 2, 2, 3, 3, 4);
-        System.out.println(list);
+        list.add(1, 5, 7);
+        MyLinkedList list2 = new MyLinkedList();
+        list2.add(0, 2, 6, 10);
 
+        MyLinkedList list3 = new MyLinkedList();
+        list3.add(20, 30, 40);
+        Node heads[] = {list.head, list2.head, list3.head};
+        Node res = heads[0];
+
+        for (int i = 1; i < heads.length; i++) {
+            res = mergeLinkedLists(res, heads[i]);
+        }
+
+        list.head = res;
+        System.out.println(list);
     }
 }
