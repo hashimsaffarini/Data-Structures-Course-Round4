@@ -4,7 +4,7 @@ public class MyLinkedList {
     Node head, tail;
     private int size;
 
-    MyLinkedList() {
+    public MyLinkedList() {
         head = tail = null;
         size = 0;
     }
@@ -15,7 +15,7 @@ public class MyLinkedList {
         }
     }
 
-    void add(int val) {
+    public void add(int val) {
         Node newNode = new Node(val);
         if (head == null) {
             head = tail = newNode;
@@ -46,7 +46,7 @@ public class MyLinkedList {
         }
     }
 
-    int remove(int index) {
+    public int remove(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
@@ -77,7 +77,7 @@ public class MyLinkedList {
         size++;
     }
 
-    int get(int index) {
+    public int get(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
@@ -150,7 +150,7 @@ public class MyLinkedList {
         return false;
     }
 
-    int size() {
+    public int size() {
         return size;
     }
 
