@@ -113,6 +113,84 @@ public class StackProblems {
         return true;
     }
 
+    static boolean checkParentheses(String str) {
+        Stack<Character> s = new Stack<>();
+        for (char ch : str.toCharArray()) {
+            if (ch == '(' || ch == '{' || ch == '[') {
+                s.push(ch);
+            } else if (ch == ')' || ch == '}' || ch == ']') {
+                if (s.isEmpty()) return false;
+                char last = s.pop();
+                if (ch == ')' && last != '(' || ch == '}' && last != '{' || ch == ']' && last != '[') {
+                    return false;
+                }
+            }
+        }
+        return s.isEmpty();
+    }
+
+    static void sortStack(Stack<Integer> s) {
+        Stack<Integer> t = new Stack<>();
+        while (!s.isEmpty()) {
+            int temp = s.pop();
+            while (!t.isEmpty() && temp > t.peek()) {
+                s.push(t.pop());
+            }
+            t.push(temp);
+        }
+
+        while (!t.isEmpty()) {
+            s.push(t.pop());
+        }
+
+    }
+
+    static String removeAdj(String str) {
+        Stack<Character> s = new Stack<>();
+        for (char ch : str.toCharArray()) {
+            if (!s.isEmpty() && ch == s.peek()) {
+                s.pop();
+            } else {
+                s.push(ch);
+            }
+        }
+        String res = "";
+        while (!s.isEmpty()) {
+            res = s.pop() + res;
+        }
+        return res;
+    }
+
+    static String decodeString(String s) {
+        Stack<String> strings = new Stack<>();
+        Stack<Integer> numbers = new Stack<>();
+
+        String current = "";
+        int num = 0;
+        for (char ch : s.toCharArray()) {
+            if (Character.isDigit(ch)) {
+                num = num * 10 + (ch - '0');
+            } else if (ch == '[') {
+                numbers.push(num);
+                strings.push(current);
+                num = 0;
+                current = "";
+            } else if (ch == ']') {
+                int repeat = numbers.pop();
+                String prev = strings.pop();
+
+                String temp = "";
+                for (int i = 0; i < repeat; i++) {
+                    temp += current;
+                }
+                current = prev + temp;
+
+            } else {
+                current += ch;
+            }
+        }
+        return current;
+    }
 
     public static void main(String[] args) {
 
