@@ -133,5 +133,24 @@ public class ArrayListProblems {
         return res;
     }
 
+    static int trap(int[] arr) {
+        int total = 0;
+        for (int i = 0; i < arr.length; i++) {
+            int leftMax = 0;
+            int rightMax = 0;
+            ///  left max
+            for (int j = 0; j <= i; j++) {
+                leftMax = Math.max(leftMax, arr[j]);
+            }
+            ///  right max
+            for (int j = i; j < arr.length; j++) {
+                rightMax = Math.max(rightMax, arr[j]);
+            }
+            int water = Math.min(leftMax, rightMax) - arr[i];
+            total += water;
+        }
+        return total;
+    }
+
 
 }
