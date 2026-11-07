@@ -192,6 +192,73 @@ public class StackProblems {
         return current;
     }
 
+    static boolean divByAll(Stack<Integer> s) {
+        int max = s.peek();
+        Stack<Integer> temp = new Stack<>();
+        while (!s.isEmpty()) {
+            int val = s.pop();
+            if (val > max) max = val;
+            temp.push(val);
+        }
+
+        while (!temp.isEmpty()) {
+            int val = temp.pop();
+            if (max % val != 0) return false;
+            s.push(val);
+        }
+        return true;
+    }
+
+    /// main method
+    static int removeForPalindrome(Stack<Integer> s) {
+        int n = s.size();
+        if (n == 0) return -1;
+        Stack<Integer> temp = new Stack<>();
+        int left = 1, right = n;
+        while (left < right) {
+            int a = valueAt(s, temp, left);
+            int b = valueAt(s, temp, right);
+            if (a != b) {
+                if (checkPalindrome(s, temp, n, left)) {
+                    return left;
+                }
+                if (checkPalindrome(s, temp, n, right)) {
+                    return right;
+                }
+                return -1;
+            }
+            left++;
+            right--;
+        }
+        return (n + 1) / 2;
+    }
+
+    static int valueAt(Stack<Integer> s, Stack<Integer> temp, int pos) {
+        for (int i = 1; i < pos; i++) {
+            temp.push(s.pop());
+        }
+        int val = s.peek();
+        while (!temp.isEmpty()) {
+            s.push(temp.pop());
+        }
+        return val;
+    }
+
+    static boolean checkPalindrome(Stack<Integer> s, Stack<Integer> temp, int n, int skip) {
+        int left = 1;
+        int right = n - 1;
+        while (left < right) {
+            int a = left >= skip ? left + 1 : left;
+            int b = right >= skip ? right + 1 : right;
+            if (valueAt(s, temp, a) != valueAt(s, temp, b)) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
 
     }
