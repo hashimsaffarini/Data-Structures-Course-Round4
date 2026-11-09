@@ -259,6 +259,34 @@ public class StackProblems {
         return true;
     }
 
+    static void merge(int[][] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - 1; j++) {
+                if (arr[j][0] > arr[j + 1][0]) {
+                    int[] temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+            }
+        }
+
+        Stack<int[]> st = new Stack<>();
+        for (int i = 0; i < n; i++) {
+            int current[] = arr[i];
+            if (st.isEmpty() || current[0] > st.peek()[1]) {
+                st.push(current);
+            } else {
+                st.peek()[1] = Math.max(st.peek()[1], current[1]);
+            }
+        }
+
+        /// print
+        for (int[] x : st) {
+            System.out.println(x[0] + " : " + x[1]);
+        }
+    }
+
     public static void main(String[] args) {
 
     }
