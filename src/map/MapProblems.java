@@ -1,9 +1,6 @@
 package map;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class MapProblems {
     static void frequencyCharacters(String s) {
@@ -106,6 +103,49 @@ public class MapProblems {
             }
         }
         return temp;
+    }
+
+    static List<List<Integer>> findMatrix(int[] arr) {
+        List<List<Integer>> res = new ArrayList<>();
+        HashMap<Integer, Integer> mp = new HashMap<>();
+        for (int num : arr) {
+            int count = mp.getOrDefault(num, 0);
+            if (count == res.size()) {
+                res.add(new ArrayList<>());
+            }
+            res.get(count).add(num);
+            mp.put(num, count + 1);
+        }
+        return res;
+    }
+
+    static List<Integer> getRepeatedSorted(int[] arr) {
+        HashMap<Integer, Integer> mp = new HashMap<>();
+        for (int element : arr) {
+            mp.put(element, mp.getOrDefault(element, 0) + 1);
+        }
+        HashSet<Integer> used = new HashSet<>();
+        List<Integer> res = new ArrayList<>();
+
+        for (int x : arr) {
+            if (mp.get(x) > 1 && !used.contains(x)) {
+                used.add(x);
+                res.add(x);
+            }
+        }
+
+        for (int i = 0; i < res.size() - 1; i++) {
+            for (int j = 0; j < res.size() - 1; j++) {
+                int a = res.get(j);
+                int b = res.get(j + 1);
+                if (mp.get(a) < mp.get(b)) {
+                    int temp = res.get(j);
+                    res.set(j, res.get(j + 1));
+                    res.set(j + 1, temp);
+                }
+            }
+        }
+        return res;
     }
 
 
